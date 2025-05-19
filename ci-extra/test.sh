@@ -21,7 +21,7 @@ if [[ ${PRESET_NAME} == *-Debug && -n $(which gdb) && $(uname -s) != MINGW* ]]; 
     -ex 'set print frame-arguments all' \
     -ex 'run' \
     -ex 'thread apply all bt -frame-info source-and-location -full' \
-    --args "build/${PRESET_NAME}/tests"
+    --args "build/${PRESET_NAME}/unit-tests/repl-unit-tests"
 else
-  "build/${PRESET_NAME}/tests"
+  "build/${PRESET_NAME}/unit-tests/repl-unit-tests"
 fi

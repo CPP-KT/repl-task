@@ -48,6 +48,8 @@ jobs:
       run:
         shell: bash
 
+    timeout-minutes: 40
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -62,6 +64,11 @@ jobs:
       - name: Update tests
         run: |
           ci-extra/update-tests.sh
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pytest --no-install-recommends
 
       - name: Build
         run: |
@@ -78,3 +85,8 @@ jobs:
         if: ${{ matrix.build-type == 'RelWithDebInfo' }}
         run: |
           ci-extra/test-valgrind.sh "$CT_CMAKE_PRESET"
+
+      - name: Integration tests
+        if: ${{ matrix.build-type == 'Release' }}
+        run: |
+          ci-extra/run-integration-tests.sh "$CT_CMAKE_PRESET"

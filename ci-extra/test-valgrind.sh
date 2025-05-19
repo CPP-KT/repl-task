@@ -14,4 +14,4 @@ valgrind --tool=memcheck \
   --vgdb=no \
   --error-exitcode=1 \
   --suppressions="${SCRIPT_DIR}/valgrind.suppressions" \
-  "build/${PRESET_NAME}/tests"
+  "build/${PRESET_NAME}/unit-tests/repl-unit-tests"
