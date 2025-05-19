@@ -70,6 +70,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3-pytest --no-install-recommends
 
+      - name: Cache build
+        uses: actions/cache@v4
+        id: cache-deps
+        with:
+          path: ${{ github.workspace }}/build/${{ env.CT_CMAKE_PRESET }}/
+          key: ${{ matrix.toolchain.os }}-${{ matrix.toolchain.compiler-id }}-${{ matrix.build-type }}-build-${{ hashFiles('**/') }}
+          restore-keys: |
+            ${{ matrix.toolchain.os }}-${{ matrix.toolchain.compiler-id }}-${{ matrix.build-type }}-build-
+
       - name: Build
         run: |
           ci-extra/build.sh "$CT_CMAKE_PRESET"
