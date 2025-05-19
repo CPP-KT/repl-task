@@ -11,7 +11,7 @@ import pytest
 
 from tests.error_registry import error_registry
 
-DEFAULT_RPC_HOST = 'vmedv.com'
+DEFAULT_RPC_HOST = '158.160.41.77'
 DEFAULT_RPC_PORT = 5050
 
 ERROR_PREFIX = 'Error: '
