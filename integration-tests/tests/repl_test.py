@@ -245,7 +245,7 @@ class TestSchemaParsing:
             repl.query('concat(left="hello, ", right="world!")').assert_result('"hello, world!"')
             repl.query('concat(left="", right="empty")').assert_result('"empty"')
 
-    def test_empty_file(self):
+    def test_empty_file(self) -> None:
         Repl.run(schema='empty').assert_success()
 
     def test_nested(self) -> None:
@@ -277,7 +277,7 @@ class TestSchemaParsing:
                 repl.query('getId(person={id=200, name="Egor", email="cool@gmail.com"})').assert_result('200')
 
     @pytest.mark.parametrize('token_idx', range(len(INLINE_SCHEMA_TOKENS)))
-    def test_missing_token(self, token_idx: int):
+    def test_missing_token(self, token_idx: int) -> None:
         unfiltered_tokens = TestSchemaParsing.INLINE_SCHEMA_TOKENS
         dropped_token = unfiltered_tokens[token_idx].strip()
         filtered_tokens = unfiltered_tokens[:token_idx] + unfiltered_tokens[(token_idx + 1):]
@@ -286,13 +286,13 @@ class TestSchemaParsing:
         with SchemaByContent(schema_content, 'person') as schema:
             Repl.run(schema=schema).assert_error(f"Missing schema token #{token_idx} ('{dropped_token}')")
 
-    def test_incorrect_keyword(self):
+    def test_incorrect_keyword(self) -> None:
         Repl.run(schema='bad-invalid-keyword').assert_error("Invalid keyword in schema")
 
-    def test_recursive_struct(self):
+    def test_recursive_struct(self) -> None:
         Repl.run(schema='bad-recursive-struct').assert_error("Recursive struct")
 
-    def test_function_as_type(self):
+    def test_function_as_type(self) -> None:
         Repl.run(schema='bad-function-as-type').assert_error("Function used as a type")
 
 
@@ -396,7 +396,7 @@ class TestRPC:
             repl.query('square(a=123456789)').assert_error('Server error (square overflow)')
             repl.query('square(a=21)').assert_result('441')
 
-    def test_connection_error(self):
+    def test_connection_error(self) -> None:
         repl = Repl(schema='numbers', rpc_host='1.1.1.1', rpc_port=1234)
         query_result = repl.query('square(a=21)')
         exit_result = repl.exit()
@@ -405,7 +405,7 @@ class TestRPC:
         else:
             exit_result.assert_error('Connection error')
 
-    def test_invalid_host(self):
+    def test_invalid_host(self) -> None:
         repl = Repl(schema='numbers', rpc_host='255.0.256.257', rpc_port=0)
         query_result = repl.query('square(a=21)')
         exit_result = repl.exit()
